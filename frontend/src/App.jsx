@@ -11,8 +11,8 @@ const App = () => {
     <div className="overflow-x-hidden">
       <Hero/>
       <Services/>
-      <Delivery/>
       <NewRealese/>
+      <Delivery/>
       <Footer/>
     </div>
   );
