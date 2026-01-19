@@ -4,7 +4,7 @@ import productModel from "../models/productmodel.js"
 //in here we will create 4 contoller functions 
 //add product, total product list, remove product, get the single product details
 
-//funtion for add product
+//funtion for add product -> POST-> add
 const addProduct = async(req,res) =>{
     try {
         //from body get product details
@@ -56,17 +56,38 @@ const addProduct = async(req,res) =>{
         res.json({success:false, message:error.message})
     }
 }
-//funtion for list product
+
+//funtion for list product -> get -> list
 const listProduct = async(req,res) =>{
-    
+    //in here using database product details we can display products in our frontend
+    try {
+        const products = await productModel.find({}); //save all products from bd
+        res.json({success:true, products})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
 }
 //funtion for remove product
 const removeProduct = async(req,res) =>{
-    
+    try {
+        await productModel.findByIdAndDelete(req.body.id)
+        res.json({success:true, message:"Product removed successfully"})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
 }
 //funtion for single product info
 const singleProduct = async(req,res) =>{
-    
+    try {
+        const {productId} = req.body
+        const product = await productModel.findById(productId)
+        res.json({success:true, product})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
 }
 
 export {addProduct, listProduct, removeProduct, singleProduct}
